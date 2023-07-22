@@ -1,7 +1,7 @@
-# Example application using a LoRa module, using `asimple`
+# Redboard Artemis Photo Resistor (KLS6-3537) application, using `asimple`
 
 This is an example application using the asimple and forked AmbiqSuiteSDK
-projects to read time from the RTC and read/write/erase from the flash chip.
+projects to read the voltage and resistance from the Photo Resistor using ADC.
 
 ## Dependencies
  - https://github.com/gemarcano/AmbiqSuiteSDK
