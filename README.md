@@ -3,6 +3,11 @@
 This is an example application using the asimple and forked AmbiqSuiteSDK
 projects to read the voltage and resistance from the Photo Resistor using ADC.
 
+### Pins
+- Left - ADC
+- Middle - VCC
+- Right - GND
+
 ## Dependencies
  - https://github.com/gemarcano/AmbiqSuiteSDK
  - https://github.com/gemarcano/asimple
