@@ -3,6 +3,11 @@
 // SPDX-FileCopyrightText 2023 Melody Gill
 // SPDX-FileCopyrightText 2023 Gabriel Marcano
 
+/*
+ * Gets data from the photo resistor using the ADC
+ * and prints the voltage and resistance from the sensor
+*/
+
 #include "am_mcu_apollo.h"
 #include "am_bsp.h"
 #include "am_util.h"
