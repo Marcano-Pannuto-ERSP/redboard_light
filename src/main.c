@@ -36,23 +36,25 @@ int main(void)
 	uart_init(&uart, UART_INST0);
 
 	// Initialize the ADC.
-	adc_init(&adc);
+	uint8_t pins[2];
+	pins[0] = 16;
+	pins[1] = 29;
+	size_t size = 2;
+	adc_init(&adc, pins, 2);
 
 	// After init is done, enable interrupts
 	am_hal_interrupt_master_enable();
-
-	// Trigger the ADC to start collecting data
-	adc_trigger(&adc);
 
 	// Wait here for the ISR to grab a buffer of samples.
 	while (1)
 	{
 		// Print the battery voltage and the resistance of the photo resister
 		// (to know how bright the ambient environment is)
-		uint32_t data = 0;
-		if (adc_get_sample(&adc, &data))
+		// Trigger the ADC to start collecting data
+		adc_trigger(&adc);
+		uint32_t data[1][3];
+		if (adc_get_sample(&adc, data, pins, size))
 		{
-
 			// The math here is straight forward: we've asked the ADC to give
 			// us data in 14 bits (max value of 2^14 -1). We also specified the
 			// reference voltage to be 1.5V. A reading of 1.5V would be
@@ -60,13 +62,17 @@ int main(void)
 			// value from the ADC by this maximum, and multiply it by the
 			// reference, which then gives us the actual voltage measured.
 			const double reference = 1.5;
-			double voltage = data * reference / ((1 << 14) - 1);
+			double voltage = data[0][0] * reference / ((1 << 14) - 1);
 			am_util_stdio_printf(
-				"voltage = <%.3f> (0x%04X) ", voltage, data);
+				"voltage = <%.3f> (0x%04X) ", voltage, data[0][0]);
 			am_util_stdio_printf("\r\n");
 			double resistance = (10000 * voltage)/(3.3 - voltage);
 			am_util_stdio_printf(
 				"resistance = <%.3f> ", resistance);
+			am_util_stdio_printf("\r\n\r\n");
+			voltage = data[0][1] * reference / ((1 << 14) - 1);
+			am_util_stdio_printf(
+				"internal voltage = <%.3f> (0x%04X) ", voltage, data[0][1]);
 			am_util_stdio_printf("\r\n");
 		}
 		
