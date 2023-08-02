@@ -6,6 +6,8 @@
 /*
  * Gets data from the photo resistor using the ADC
  * and prints the voltage and resistance from the sensor
+ * Pin 16 is the ADC connected to the photoresistor and
+ * pins 29 and 11 are only reading internal voltage of the board.
 */
 
 #include "am_mcu_apollo.h"
@@ -64,18 +66,18 @@ int main(void)
 			am_util_stdio_printf(
 				"voltage pin 16 = <%.3f> (0x%04X) ", voltage, data[0][0]);
 			am_util_stdio_printf("\r\n");
-			// double resistance = (10000 * voltage)/(3.3 - voltage);
-			// am_util_stdio_printf(
-			// 	"resistance = <%.3f> ", resistance);
-			// am_util_stdio_printf("\r\n\r\n");
+			double resistance = (10000 * voltage)/(3.3 - voltage);
+			am_util_stdio_printf(
+				"resistance pin 16 = <%.3f> ", resistance);
+			am_util_stdio_printf("\r\n\r\n");
 			voltage = data[0][1] * reference / ((1 << 14) - 1);
 			am_util_stdio_printf(
-				"voltage pin 29 = <%.3f> (0x%04X) ", voltage, data[0][1]);
+				"internal voltage pin 29 = <%.3f> (0x%04X) ", voltage, data[0][1]);
 			am_util_stdio_printf("\r\n");
 
 			voltage = data[0][2] * reference / ((1 << 14) - 1);
 			am_util_stdio_printf(
-				"voltage pin 11 = <%.3f> (0x%04X) ", voltage, data[0][2]);
+				"internal voltage pin 11 = <%.3f> (0x%04X) ", voltage, data[0][2]);
 			am_util_stdio_printf("\r\n");
 		}
 		

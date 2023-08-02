@@ -2,6 +2,8 @@
 
 This is an example application using the asimple and forked AmbiqSuiteSDK
 projects to read the voltage and resistance from the Photo Resistor using ADC.
+Pin 16 is the ADC connected to the photoresistor and pins 29 and 11 are only
+reading internal voltage of the board.
 
 ### Pins
 - Left - ADC
