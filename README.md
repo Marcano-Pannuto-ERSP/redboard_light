@@ -1,14 +1,19 @@
-# Redboard Artemis Photo Resistor (KLS6-3537) application, using `asimple`
+# Redboard Artemis Photoresistor (KLS6-3537) application, using `asimple`
 
 This is an example application using the asimple and forked AmbiqSuiteSDK
-projects to read the voltage and resistance from the Photo Resistor using ADC.
+projects to read the voltage and resistance from the Photoresistor using ADC.
 Pin 16 is the ADC connected to the photoresistor and pins 29 and 11 are only
 reading internal voltage of the board.
 
-### Pins
+### Photoresistor Pins:
 - Left - ADC
 - Middle - VCC
 - Right - GND
+
+### ADC Pins:
+ *   Pin 16
+ *   Pin 29
+ *   Pin 11
 
 ## Dependencies
  - https://github.com/gemarcano/AmbiqSuiteSDK
