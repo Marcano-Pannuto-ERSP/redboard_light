@@ -52,7 +52,7 @@ int main(void)
 		// (to know how bright the ambient environment is)
 		// Trigger the ADC to start collecting data
 		adc_trigger(&adc);
-		uint32_t data[1][3] = {0};
+		uint32_t data[3] = {0};
 		if (adc_get_sample(&adc, data, pins, size))
 		{
 			// The math here is straight forward: we've asked the ADC to give
@@ -62,22 +62,23 @@ int main(void)
 			// value from the ADC by this maximum, and multiply it by the
 			// reference, which then gives us the actual voltage measured.
 			const double reference = 1.5;
-			double voltage = data[0][0] * reference / ((1 << 14) - 1);
+			double voltage = data[0] * reference / ((1 << 14) - 1);
 			am_util_stdio_printf(
-				"voltage pin 16 = <%.3f> (0x%04X) ", voltage, data[0][0]);
+				"voltage pin 16 = <%.3f> (0x%04X) ", voltage, data[0]);
 			am_util_stdio_printf("\r\n");
 			double resistance = (10000 * voltage)/(3.3 - voltage);
 			am_util_stdio_printf(
 				"resistance pin 16 = <%.3f> ", resistance);
 			am_util_stdio_printf("\r\n\r\n");
-			voltage = data[0][1] * reference / ((1 << 14) - 1);
+
+			voltage = data[1] * reference / ((1 << 14) - 1);
 			am_util_stdio_printf(
-				"internal voltage pin 29 = <%.3f> (0x%04X) ", voltage, data[0][1]);
+				"internal voltage pin 29 = <%.3f> (0x%04X) ", voltage, data[1]);
 			am_util_stdio_printf("\r\n");
 
-			voltage = data[0][2] * reference / ((1 << 14) - 1);
+			voltage = data[2] * reference / ((1 << 14) - 1);
 			am_util_stdio_printf(
-				"internal voltage pin 11 = <%.3f> (0x%04X) ", voltage, data[0][2]);
+				"internal voltage pin 11 = <%.3f> (0x%04X) ", voltage, data[2]);
 			am_util_stdio_printf("\r\n");
 		}
 		
