@@ -36,11 +36,9 @@ int main(void)
 	uart_init(&uart, UART_INST0);
 
 	// Initialize the ADC.
-	uint8_t pins[2];
-	pins[0] = 16;
-	pins[1] = 29;
-	size_t size = 2;
-	adc_init(&adc, pins, 2);
+	uint8_t pins[] = {16, 29, 11};
+	size_t size = 3;
+	adc_init(&adc, pins, 3);
 
 	// After init is done, enable interrupts
 	am_hal_interrupt_master_enable();
@@ -52,7 +50,7 @@ int main(void)
 		// (to know how bright the ambient environment is)
 		// Trigger the ADC to start collecting data
 		adc_trigger(&adc);
-		uint32_t data[1][3];
+		uint32_t data[1][3] = {0};
 		if (adc_get_sample(&adc, data, pins, size))
 		{
 			// The math here is straight forward: we've asked the ADC to give
@@ -64,15 +62,20 @@ int main(void)
 			const double reference = 1.5;
 			double voltage = data[0][0] * reference / ((1 << 14) - 1);
 			am_util_stdio_printf(
-				"voltage = <%.3f> (0x%04X) ", voltage, data[0][0]);
+				"voltage pin 16 = <%.3f> (0x%04X) ", voltage, data[0][0]);
 			am_util_stdio_printf("\r\n");
-			double resistance = (10000 * voltage)/(3.3 - voltage);
-			am_util_stdio_printf(
-				"resistance = <%.3f> ", resistance);
-			am_util_stdio_printf("\r\n\r\n");
+			// double resistance = (10000 * voltage)/(3.3 - voltage);
+			// am_util_stdio_printf(
+			// 	"resistance = <%.3f> ", resistance);
+			// am_util_stdio_printf("\r\n\r\n");
 			voltage = data[0][1] * reference / ((1 << 14) - 1);
 			am_util_stdio_printf(
-				"internal voltage = <%.3f> (0x%04X) ", voltage, data[0][1]);
+				"voltage pin 29 = <%.3f> (0x%04X) ", voltage, data[0][1]);
+			am_util_stdio_printf("\r\n");
+
+			voltage = data[0][2] * reference / ((1 << 14) - 1);
+			am_util_stdio_printf(
+				"voltage pin 11 = <%.3f> (0x%04X) ", voltage, data[0][2]);
 			am_util_stdio_printf("\r\n");
 		}
 		
